@@ -1,6 +1,5 @@
 const Staff = require(`../Model/teacher.model.js`)
 const nodemailer = require('nodemailer');
-const md5 = require('md5');
 const bcrypt = require('bcryptjs');
 
 exports.create = async (req, res) => {
@@ -9,15 +8,15 @@ exports.create = async (req, res) => {
     name = req.body.name
     pass = hashedpassword
     email = req.body.email
-        const staff = new Staff({
-            name: name,
-            email: email,
-            password: pass
-        })
-        staff.save()
-        await main().catch(console.error);   
-        res.json('Check your mail to login')  
-  }
+    const staff = new Staff({
+        name: name,
+        email: email,
+        password: pass
+    })
+    staff.save()
+    await main().catch(console.error);
+    res.json('Check your mail to login')
+}
 async function main(req, res) {
     const transporter = nodemailer.createTransport({
         service: 'gmail',
@@ -47,13 +46,13 @@ exports.login = async (req, res) => {
         if (!user) res.send(`User not exist`)
         const pwd = await bcrypt.compare(req.body.password, user.password);
         if (!pwd) res.status(400).json({ message: 'Password Not Match' });
-        if(req.body.token === user.password){
-                res.cookie("userData", user);
-                const cookiee = req.cookies;
-                res.send(cookiee)
-                //res.json('user data added to cookie');
+        if (req.body.token === user.password) {
+            res.cookie("userData", user);
+            const cookiee = req.cookies;
+            res.send(cookiee)
+            //res.json('user data added to cookie');
         }
-        else{
+        else {
             res.json('Invalid login details')
         }
     } catch (error) {
