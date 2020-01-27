@@ -1,6 +1,6 @@
 const mongoose = require(`mongoose`)
 
-const TeacherSchema = new mongoose.Schema({
+const StaffSchema = new mongoose.Schema({
     name: {
         type: String,
         required: true,
@@ -14,10 +14,8 @@ const TeacherSchema = new mongoose.Schema({
     password: {
         type: String,
         required: true,
-        trim: true,
-        minlength: 8,
-        maxlength: 30
+        trim: true
     }
 })
 
-module.exports = mongoose.model('Teacher', TeacherSchema)
+module.exports = mongoose.model('Staff', StaffSchema)
